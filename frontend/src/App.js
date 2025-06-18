@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
+import Navbar from './components/Navbar';
 
 function App() {
   const [cartUpdated, setCartUpdated] = useState(false);
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
