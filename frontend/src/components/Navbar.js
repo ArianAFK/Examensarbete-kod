@@ -11,12 +11,17 @@ function Navbar() {
         <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography
+                        variant="h6"
+                        component={Link}
+                        to="/"
+                        sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
+                    >
                         Min Webbutik
                     </Typography>
-                    <Button color="inherit" component={Link} to="/">Produkter</Button>
+
+                    <Button color="inherit" component={Link} to="/products">Produkter</Button>
                     <Button color="inherit" component={Link} to="/cart">Kundvagn</Button>
-                    <Button color="inherit" component={Link} to="/about">Om</Button>
                 </Toolbar>
             </AppBar>
         </Box>

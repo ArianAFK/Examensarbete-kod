@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 
 const router = express.Router();
 
-// Hämta kundvagnen (antag en enda kundvagn – enkelt demo)
+// Hämta kundvagnen
 router.get('/', async (req, res) => {
     try {
         let cart = await Cart.findOne({}).populate('items.product');
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Lägg till produkt i kundvagn
+// Lägg till produkt i kundvagn (eller öka kvantitet)
 router.post('/add', async (req, res) => {
     const { productId, quantity } = req.body;
     try {
@@ -29,7 +29,6 @@ router.post('/add', async (req, res) => {
 
         const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
         if (itemIndex > -1) {
-            // Uppdatera kvantitet
             cart.items[itemIndex].quantity += quantity;
         } else {
             cart.items.push({ product: productId, quantity });
@@ -39,6 +38,33 @@ router.post('/add', async (req, res) => {
         res.json(cart);
     } catch (err) {
         res.status(400).json({ message: err.message });
+    }
+});
+
+// Uppdatera kvantitet i kundvagnen
+router.put('/update', async (req, res) => {
+    const { productId, quantity } = req.body;
+    if (quantity < 1) {
+        return res.status(400).json({ message: 'Quantity måste vara minst 1' });
+    }
+
+    try {
+        const cart = await Cart.findOne({});
+        if (!cart) {
+            return res.status(404).json({ message: 'Kundvagn ej hittad' });
+        }
+
+        const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
+        if (itemIndex === -1) {
+            return res.status(404).json({ message: 'Produkten finns inte i kundvagnen' });
+        }
+
+        cart.items[itemIndex].quantity = quantity;
+        await cart.save();
+        const populatedCart = await cart.populate('items.product');
+        res.json(populatedCart);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
