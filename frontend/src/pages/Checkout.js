@@ -28,6 +28,10 @@ function Checkout({ cart, onOrderPlaced }) {
                     Lägg order
                 </Button>
             </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
+                Vi skyddar dina betalningsuppgifter med säker kryptering och följer GDPR för att skydda din personliga data.
+            </Typography>
+
         </Container>
     );
 }

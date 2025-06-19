@@ -5,6 +5,7 @@ import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Navbar from './components/Navbar';
 import Checkout from './pages/Checkout';
+import CookieBanner from './components/CookieBanner';
 
 function App() {
   const [cartUpdated, setCartUpdated] = useState(false);
@@ -49,6 +50,7 @@ function App() {
         <Route path="/cart" element={<Cart key={cartUpdated} />} />
         <Route path="/checkout" element={<Checkout cart={cart} onOrderPlaced={handleOrderPlaced} />} />
       </Routes>
+      <CookieBanner />
     </div>
   );
 }
