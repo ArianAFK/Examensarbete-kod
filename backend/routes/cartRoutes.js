@@ -85,4 +85,18 @@ router.post('/remove', async (req, res) => {
     }
 });
 
+router.post('/clear', async (req, res) => {
+    try {
+        const cart = await Cart.findOne({});
+        if (!cart) return res.status(404).json({ message: 'Kundvagn ej hittad' });
+
+        cart.items = [];
+        await cart.save();
+        res.json({ message: 'Kundvagn tömd' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 module.exports = router;
